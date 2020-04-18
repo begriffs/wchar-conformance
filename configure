@@ -1,0 +1,9 @@
+#!/bin/sh -eu
+
+rm -f config.mk
+pkg-config --print-errors icu-uc
+
+cat >> config.mk <<-EOF
+	CFLAGS += $(pkg-config --cflags icu-uc)
+	LDFLAGS += $(pkg-config --libs icu-uc)
+EOF

@@ -33,27 +33,27 @@ int main(void)
 
 	for (c = 0; c < 0xF0000; c++)
 	{
-		if (u_charType(c) != U_SURROGATE)
-		{
-			written = 0;
-			U8_APPEND_UNSAFE(utf8, written, c);
-			utf8[written] = '\0';
+		if (u_charType(c) == U_SURROGATE)
+			continue;
 
-			mbstowcs(wide, utf8, MAX_UTF8_REP);
-			if (wcslen(wide) > 1)
-			{
-				fprintf(stderr,
-					"Not conforming: U+%lx expands to %zu wide characters\n",
-					(unsigned long)c, wcslen(wide));
-				conforming = false;
-			}
-			else if ((unsigned long)c != (unsigned long)wide[0])
-			{
-				fprintf(stderr,
-					"Not conforming: U+%lx turned into wchar_t %lx\n",
-					(unsigned long)c, (unsigned long)wide[0]);
-				conforming = false;
-			}
+		written = 0;
+		U8_APPEND_UNSAFE(utf8, written, c);
+		utf8[written] = '\0';
+
+		mbstowcs(wide, utf8, MAX_UTF8_REP);
+		if (wcslen(wide) > 1)
+		{
+			fprintf(stderr,
+				"Not conforming: U+%lx expands to %zu wide characters\n",
+				(unsigned long)c, wcslen(wide));
+			conforming = false;
+		}
+		else if ((unsigned long)c != (unsigned long)wide[0])
+		{
+			fprintf(stderr,
+				"Not conforming: U+%lx turned into wchar_t %lx\n",
+				(unsigned long)c, (unsigned long)wide[0]);
+			conforming = false;
 		}
 	}
 	if (conforming)

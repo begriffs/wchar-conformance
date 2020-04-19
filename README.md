@@ -24,3 +24,17 @@ This repo contains a program "w" to test the implementation. It works like this:
 
 The program reports any conversion errors, as well as whether the compiler
 environment defines `__STDC_ISO_10646__`.
+
+## Building
+
+* Install [ICU4C](http://site.icu-project.org/download/) library
+* Make:
+
+   ```sh
+   ./configure
+   make
+   ```
+* Run
+   ```sh
+   ./w
+   ```
